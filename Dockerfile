@@ -4,6 +4,7 @@ RUN apt-get update
 RUN apt-get upgrade -y
 RUN apt-get install -y \
     cmake \
+    git \
     curl \
     unzip \
     xz-utils \
@@ -19,13 +20,10 @@ RUN apt-get install -y \
     libzstd-dev \
     libpng16-16 \
     libpng-dev
-ENV jgrpp_version=0.53.3
+ENV openttd_branch=13.4
 ENV opengfx_version=7.1
-RUN curl -fLo jgrpp-$jgrpp_version.tar.gz https://github.com/JGRennison/OpenTTD-patches/archive/jgrpp-$jgrpp_version.tar.gz
+RUN git clone --branch $openttd_branch https://github.com/Lee0701/OpenTTD.git
 RUN curl -fLo opengfx-$opengfx_version-all.zip https://cdn.openttd.org/opengfx-releases/$opengfx_version/opengfx-$opengfx_version-all.zip
-RUN echo "e8a14df24df074c315e7a309cdb8d151c9eea9ef79723c0e2e662095d3108a4e *jgrpp-$jgrpp_version.tar.gz" | sha256sum -c
-RUN echo "928fcf34efd0719a3560cbab6821d71ce686b6315e8825360fba87a7a94d7846 *opengfx-$opengfx_version-all.zip" | sha256sum -c
-RUN tar -xvzf jgrpp-$jgrpp_version.tar.gz
 RUN mkdir /tmp/build
 
 WORKDIR /tmp/build
@@ -38,7 +36,7 @@ RUN cmake \
     -D OPTION_DEDICATED=ON \
     -D DEFAULT_PERSONAL_DIR=/data \
     -G Ninja \
-    -S /tmp/OpenTTD-patches-jgrpp-$jgrpp_version
+    -S /tmp/OpenTTD
 RUN ninja -C build
 RUN ninja -C build install
 
