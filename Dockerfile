@@ -23,7 +23,7 @@ RUN apt-get install -y \
 ENV openttd_repo=https://github.com/Lee0701/OpenTTD.git
 ENV openttd_branch=13.4
 ENV opengfx_version=7.1
-RUN git clone --branch $openttd_branch $openttd_repo
+RUN git clone -b $openttd_branch --single-branch $openttd_repo
 RUN curl -fLo opengfx-$opengfx_version-all.zip https://cdn.openttd.org/opengfx-releases/$opengfx_version/opengfx-$opengfx_version-all.zip
 RUN mkdir /tmp/build
 
