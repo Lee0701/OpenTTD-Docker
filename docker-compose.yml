@@ -4,8 +4,8 @@ services:
     build: .
     volumes:
     - ./data:/data
-#    environment:
-#    - loadgame=last-autosave
+    environment:
+    - openttd_branch=13.4
     ports:
     - 3979:3979/tcp
     - 3979:3979/udp
